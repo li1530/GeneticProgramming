@@ -1,4 +1,4 @@
-package com.GeneticProgramming;
+package com.geneticProgramming;
 
 public class GeneticProgrammingHome {
     public static void main(String[] args){
