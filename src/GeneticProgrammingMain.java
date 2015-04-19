@@ -34,10 +34,14 @@ public class GeneticProgrammingMain {
             e.printStackTrace();
             System.out.println("Error occurred.");
         }
+
+
 	}
 	
 	public void process() throws Exception {
-	    // Initialize 
+        TrainingData.generateInitialTrainingData(0D, 20);
+	    // Initialize
+
 	    ArrayList<TrainingData> trainingData = TrainingData.getTrainingData();
 
         showGUI();
