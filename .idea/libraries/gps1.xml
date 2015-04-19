@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gps1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deliv/gps.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

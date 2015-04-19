@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gps">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/gps.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
