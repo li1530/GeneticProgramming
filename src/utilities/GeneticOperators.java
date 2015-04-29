@@ -1,6 +1,6 @@
 package utilities;
 
-import data.GeneticProgrammingTree;
+import data.GPTree;
 import data.Node;
 import data.Tree;
 
@@ -9,15 +9,15 @@ import java.util.Random;
 
 public class GeneticOperators {
     
-    public static ArrayList<GeneticProgrammingTree> selection(ArrayList<GeneticProgrammingTree> population) throws Exception {
-        ArrayList<GeneticProgrammingTree> newPopulation = new ArrayList<GeneticProgrammingTree>(Settings.getPopulationSize());
+    public static ArrayList<GPTree> selection(ArrayList<GPTree> population) throws Exception {
+        ArrayList<GPTree> newPopulation = new ArrayList<GPTree>(Settings.getPopulationSize());
         
         int numberOfSurvivors = getNumberOfSurvivors();
        
         int index = 0;
         while (index < numberOfSurvivors) {
 
-            newPopulation.add(GeneticProgrammingTree.copy(population.get(index)));
+            newPopulation.add(GPTree.copy(population.get(index)));
             
             if (Settings.trace()) {
                 System.out.print("[Trace] newPopulation[" + newPopulation.size() + "]         = ");
@@ -44,7 +44,7 @@ public class GeneticOperators {
         return numberOfSurvivors;
     }
     
-    public static void mutateTrees(ArrayList<GeneticProgrammingTree> trees) {
+    public static void mutateTrees(ArrayList<GPTree> trees) {
 
         int treeSize = trees.size();
         if (treeSize < 0)
@@ -58,7 +58,7 @@ public class GeneticOperators {
 
                 //grab a single random tree
                 int i1 = randomGenerator.nextInt(trees.size());
-                GeneticProgrammingTree tree = trees.get(i1);
+                GPTree tree = trees.get(i1);
 
                 if (Settings.trace()) {
                     System.out.println("[Trace] Before Mutation - Tree[" + i1 + "]");
@@ -84,8 +84,8 @@ public class GeneticOperators {
         return (int) Math.ceil(Settings.getMutationProbability() * treeSize);
     }
 
-    public static ArrayList<GeneticProgrammingTree> crossoverTrees(ArrayList<GeneticProgrammingTree> population) throws Exception {
-        ArrayList<GeneticProgrammingTree> children = new ArrayList<GeneticProgrammingTree>();
+    public static ArrayList<GPTree> crossoverTrees(ArrayList<GPTree> population) throws Exception {
+        ArrayList<GPTree> children = new ArrayList<GPTree>();
         int numOfPairsForCrossover = getNumberOfPairsForCrossover(population.size());
         
         Random randomGenerator = new Random();
@@ -104,8 +104,8 @@ public class GeneticOperators {
                 population.get(i2).inOrderPrint();
             }
             
-            GeneticProgrammingTree treeOne = GeneticProgrammingTree.copy(population.get(i1));
-            GeneticProgrammingTree treeTwo = GeneticProgrammingTree.copy(population.get(i2));
+            GPTree treeOne = GPTree.copy(population.get(i1));
+            GPTree treeTwo = GPTree.copy(population.get(i2));
 
             if (treeOne.depth() != 1 && treeTwo.depth() != 1) {
                 GeneticOperators.crossover(treeOne, treeTwo);
@@ -135,14 +135,14 @@ public class GeneticOperators {
         return children;
     }
 
-    private static GeneticProgrammingTree getCopyOfRandomParent(GeneticProgrammingTree p1, GeneticProgrammingTree p2) throws Exception {
+    private static GPTree getCopyOfRandomParent(GPTree p1, GPTree p2) throws Exception {
         double probability = Math.random();
 
         if (probability < 0.5) {
-            return GeneticProgrammingTree.copy(p1);
+            return GPTree.copy(p1);
         }
         else {
-            return GeneticProgrammingTree.copy(p2);
+            return GPTree.copy(p2);
         }
     }
     

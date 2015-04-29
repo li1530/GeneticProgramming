@@ -6,11 +6,11 @@ import utilities.Utilities;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class GeneticProgrammingTree extends Tree implements Comparable<GeneticProgrammingTree> {
+public class GPTree extends Tree implements Comparable<GPTree> {
 
     private double fitness;
 
-    private GeneticProgrammingTree(Node root, double fitness) {
+    private GPTree(Node root, double fitness) {
         super(root);
         setFitness(fitness);
     }
@@ -23,12 +23,12 @@ public class GeneticProgrammingTree extends Tree implements Comparable<GeneticPr
         this.fitness = fitness;
     }
 
-    public static ArrayList<GeneticProgrammingTree> getGeneticTreePopulation(int size) throws Exception {
-        ArrayList<GeneticProgrammingTree> population = new ArrayList<GeneticProgrammingTree>(size);
+    public static ArrayList<GPTree> getGeneticTreePopulation(int size) throws Exception {
+        ArrayList<GPTree> population = new ArrayList<GPTree>(size);
         boolean singletonExists = false;
         int i = 0;
         while (i < size) {
-            GeneticProgrammingTree gpTree = GeneticProgrammingTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
+            GPTree gpTree = GPTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
 
             if (gpTree.depth() == 1) {
                 if (singletonExists) {
@@ -62,7 +62,7 @@ public class GeneticProgrammingTree extends Tree implements Comparable<GeneticPr
         return population;
     }
 
-    public static GeneticProgrammingTree createGeneticProgrammingTree(ArrayList<TrainingData> trainingDataList) throws Exception {
+    public static GPTree createGeneticProgrammingTree(ArrayList<TrainingData> trainingDataList) throws Exception {
         Properties settings = Settings.getSettings();
 
         String prop = settings.getProperty(Settings.PROP_MAX_DEPTH);
@@ -72,18 +72,18 @@ public class GeneticProgrammingTree extends Tree implements Comparable<GeneticPr
         return createGeneticProgrammingTree(trainingDataList, maxDepth);
     }
 
-    public static GeneticProgrammingTree createGeneticProgrammingTree(ArrayList<TrainingData> trainingDataList, int maxDepth) throws Exception {
+    public static GPTree createGeneticProgrammingTree(ArrayList<TrainingData> trainingDataList, int maxDepth) throws Exception {
         Tree tree = generateInitialTree(maxDepth);
 
         double fitness = evaluateFitness(trainingDataList, tree);
 
-        return new GeneticProgrammingTree(tree.getRoot(), fitness);
+        return new GPTree(tree.getRoot(), fitness);
     }
     
-    public static GeneticProgrammingTree copy(GeneticProgrammingTree tree) throws Exception {
+    public static GPTree copy(GPTree tree) throws Exception {
         Tree copyTree = Tree.copy(tree);
         
-        return new GeneticProgrammingTree(copyTree.getRoot(), tree.getFitness());
+        return new GPTree(copyTree.getRoot(), tree.getFitness());
     }
 
     public static double evaluateFitness(ArrayList<TrainingData> trainingDataList, Tree tree) throws Exception {
@@ -105,7 +105,7 @@ public class GeneticProgrammingTree extends Tree implements Comparable<GeneticPr
         return fitness;
     }
 
-    public static void updateFitness(GeneticProgrammingTree tree, ArrayList<TrainingData> trainingDataList) throws Exception {
+    public static void updateFitness(GPTree tree, ArrayList<TrainingData> trainingDataList) throws Exception {
 
         if (tree != null && trainingDataList.size() > 0) {
             double fitness = evaluateFitness(trainingDataList, tree);
@@ -127,7 +127,7 @@ public class GeneticProgrammingTree extends Tree implements Comparable<GeneticPr
         return tree;
     }
 
-    public int compareTo(GeneticProgrammingTree gpTree) {
+    public int compareTo(GPTree gpTree) {
         double delta = this.fitness - gpTree.getFitness();
 
         if (delta > 0) {

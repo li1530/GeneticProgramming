@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import utilities.GeneticOperators;
 import utilities.Settings;
-import data.GeneticProgrammingTree;
+import data.GPTree;
 import data.OutputData;
 import data.TrainingData;
 
@@ -48,7 +48,7 @@ public class GeneticProgrammingMain {
 	    
         OutputData output = GeneticProgrammingMain.output;
         
-        ArrayList<GeneticProgrammingTree> initialPopulation = getInitialPopulation(trainingData);
+        ArrayList<GPTree> initialPopulation = getInitialPopulation(trainingData);
         
         // Sort population according to fitness, in descending order
         Collections.sort(initialPopulation);
@@ -57,12 +57,12 @@ public class GeneticProgrammingMain {
         long startTime = getCurrentTime();
         output.setStartTime(startTime);
         
-        GeneticProgrammingTree currentMaxFitnessTree = getCurrentMaxFitnessTree(initialPopulation);
+        GPTree currentMaxFitnessTree = getCurrentMaxFitnessTree(initialPopulation);
         initializeOutputData(output, initialPopulation, currentMaxFitnessTree);
         output.loadDashboard();
        
         // Generate the best fit solution
-        ArrayList<GeneticProgrammingTree> population = initialPopulation;
+        ArrayList<GPTree> population = initialPopulation;
         while (!done(startTime, currentMaxFitnessTree) && output.getGenerationCount() < Settings.getMaxGeneration()) {  
             if (Settings.regenerateTrees(output.getGenerationCount())) {
                 population = getInitialPopulation(trainingData);
@@ -77,14 +77,14 @@ public class GeneticProgrammingMain {
                 output.displayPopulation(population);
             }
             
-            ArrayList<GeneticProgrammingTree> nextGenPopulation = GeneticOperators.selection(population);
+            ArrayList<GPTree> nextGenPopulation = GeneticOperators.selection(population);
             
             if (Settings.trace()) {
                 System.out.println("[Trace] Display selected population:");
                 output.displayPopulation(nextGenPopulation);
             }
             
-            ArrayList<GeneticProgrammingTree> children = GeneticOperators.crossoverTrees(population);
+            ArrayList<GPTree> children = GeneticOperators.crossoverTrees(population);
             
             nextGenPopulation.addAll(children);
             
@@ -118,26 +118,26 @@ public class GeneticProgrammingMain {
         });
     }
 
-    public void initializeOutputData(OutputData output, ArrayList<GeneticProgrammingTree> initialPopulation, GeneticProgrammingTree currentMaxFitnessTree) throws Exception {
+    public void initializeOutputData(OutputData output, ArrayList<GPTree> initialPopulation, GPTree currentMaxFitnessTree) throws Exception {
         output.incrementGenerationCount();
         output.addFittestTreeInGeneration(currentMaxFitnessTree);
         output.addPopulationSizeInGeneration(initialPopulation.size());
         output.recordInitialPopulationFitness(initialPopulation);
     }
 
-    private void performFitnesEvaluation(ArrayList<GeneticProgrammingTree> nextGenPopulation)throws Exception {
-        for (GeneticProgrammingTree gpTree : nextGenPopulation) {
-            double fitness = GeneticProgrammingTree.evaluateFitness(TrainingData.getTrainingData(), gpTree);
+    private void performFitnesEvaluation(ArrayList<GPTree> nextGenPopulation)throws Exception {
+        for (GPTree gpTree : nextGenPopulation) {
+            double fitness = GPTree.evaluateFitness(TrainingData.getTrainingData(), gpTree);
             gpTree.setFitness(fitness);
         }
     }
 
-    private GeneticProgrammingTree getCurrentMaxFitnessTree(ArrayList<GeneticProgrammingTree> population) {
-        GeneticProgrammingTree currentMaxFitnessTree = population.get(0);
+    private GPTree getCurrentMaxFitnessTree(ArrayList<GPTree> population) {
+        GPTree currentMaxFitnessTree = population.get(0);
         return currentMaxFitnessTree;
     }
 
-    private boolean done(long startTime, GeneticProgrammingTree gpTree) throws Exception {
+    private boolean done(long startTime, GPTree gpTree) throws Exception {
         if (bestSolutionFound(gpTree) || executionTimeExceeded(startTime)) {
             if (Settings.trace()) {
                 System.out.println("[Trace:done()] *** Done! ***");
@@ -151,7 +151,7 @@ public class GeneticProgrammingMain {
         }
     }
 
-    private boolean bestSolutionFound(GeneticProgrammingTree currentMaxFitnessTree) throws Exception {
+    private boolean bestSolutionFound(GPTree currentMaxFitnessTree) throws Exception {
         boolean found = false;
         if (currentMaxFitnessTree.getFitness() <= Settings.getFitnessThreshold()) {
             found = true;
@@ -202,7 +202,7 @@ public class GeneticProgrammingMain {
         return new Date().getTime();
     }
 
-    private ArrayList<GeneticProgrammingTree> getInitialPopulation(ArrayList<TrainingData> trainingData) {
+    private ArrayList<GPTree> getInitialPopulation(ArrayList<TrainingData> trainingData) {
         int size = 0;
         
         try {
@@ -215,10 +215,10 @@ public class GeneticProgrammingMain {
             e.printStackTrace();
         }
         
-        ArrayList<GeneticProgrammingTree> population = new ArrayList<GeneticProgrammingTree>(size);
+        ArrayList<GPTree> population = new ArrayList<GPTree>(size);
         try {
             for (int i = 0; i < size; i++) {
-                GeneticProgrammingTree gpTree = GeneticProgrammingTree.createGeneticProgrammingTree(trainingData); 
+                GPTree gpTree = GPTree.createGeneticProgrammingTree(trainingData);
                 
                 population.add(gpTree);
             }

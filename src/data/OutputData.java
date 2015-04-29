@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class OutputData {
-    private ArrayList<GeneticProgrammingTree> fittestTreeInEachGeneration = new ArrayList<GeneticProgrammingTree>();
+    private ArrayList<GPTree> fittestTreeInEachGeneration = new ArrayList<GPTree>();
     private ArrayList<Integer> populationSizeInEachGeneration = new ArrayList<Integer>();
     private long startTime = 0;
     private long currentTime = 0;
@@ -53,7 +53,7 @@ public class OutputData {
     }
     
     public void resetData() {
-        fittestTreeInEachGeneration = new ArrayList<GeneticProgrammingTree>();
+        fittestTreeInEachGeneration = new ArrayList<GPTree>();
         populationSizeInEachGeneration = new ArrayList<Integer>();
         generationCount = 0;
     }
@@ -66,7 +66,7 @@ public class OutputData {
         populationSizeInEachGeneration.add(Integer.valueOf(size));
     }
     
-    public void addFittestTreeInGeneration(GeneticProgrammingTree tree) {
+    public void addFittestTreeInGeneration(GPTree tree) {
         fittestTreeInEachGeneration.add(tree);
     }
     
@@ -77,9 +77,9 @@ public class OutputData {
         printSeperatorLine();
     }
     
-    public void displayPopulation(ArrayList<GeneticProgrammingTree> population) {
+    public void displayPopulation(ArrayList<GPTree> population) {
         int index = 0;
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             System.out.print("population[" + index + "]         = ");
             gpTree.inOrderPrint();
             System.out.println("population[" + index + "].fitness = " + gpTree.getFitness());
@@ -110,7 +110,7 @@ public class OutputData {
         XYSeries series = new XYSeries("Best Fitness/Generation");
         
         int gen = 0;
-        for (GeneticProgrammingTree gpTree : fittestTreeInEachGeneration) {
+        for (GPTree gpTree : fittestTreeInEachGeneration) {
             series.add(gen, gpTree.getFitness());
             ++gen;
         }
@@ -132,21 +132,21 @@ public class OutputData {
         ChartUtilities.saveChartAsJPEG(new File("bestfitness_generation.jpg"), chart, 1500, 900);
     }
     
-    public void recordInitialPopulationFitness(ArrayList<GeneticProgrammingTree> population) throws Exception {
+    public void recordInitialPopulationFitness(ArrayList<GPTree> population) throws Exception {
         String fileName = "initial_population_fitness";
         recordFitnessOfPopulation(population, "Initial Population/Fitness", fileName);
     }
     
-    public void recordFinalPopulationFitness(ArrayList<GeneticProgrammingTree> population) throws Exception {
+    public void recordFinalPopulationFitness(ArrayList<GPTree> population) throws Exception {
         String fileName = "final_population_fitness";
         recordFitnessOfPopulation(population, "Final Population/Fitness", fileName);
     }
     
-    private void recordFitnessOfPopulation(ArrayList<GeneticProgrammingTree> population, String title, String fileName) throws Exception {
+    private void recordFitnessOfPopulation(ArrayList<GPTree> population, String title, String fileName) throws Exception {
         XYSeries series = new XYSeries(title);
         
         int t = 0;
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             series.add(t, gpTree.getFitness());
             ++t;
         }

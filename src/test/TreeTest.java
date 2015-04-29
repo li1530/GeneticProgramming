@@ -100,7 +100,7 @@ public class TreeTest {
         int maxDepth = 4;
 
         for (int i = 0; i < 100; i++) {
-            Tree gpTree = GeneticProgrammingTree.generateTree(maxDepth);
+            Tree gpTree = GPTree.generateTree(maxDepth);
 
             if (gpTree.getRoot().depth() > 1)
                 assertThat(gpTree.getRoot(), instanceOf(OperatorNode.class));
@@ -115,7 +115,7 @@ public class TreeTest {
         System.out.println("***testCreateGeneticProgammingTree***");
 
         try {
-            GeneticProgrammingTree gpTree = GeneticProgrammingTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
+            GPTree gpTree = GPTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
 
             System.out.println("Tree depth: " + gpTree.depth());
 
@@ -149,10 +149,10 @@ public class TreeTest {
             fail("Could not load property '" + Settings.PROP_POPULATION_SIZE + "'");
         }
 
-        ArrayList<GeneticProgrammingTree> population = new ArrayList<GeneticProgrammingTree>(size);
+        ArrayList<GPTree> population = new ArrayList<GPTree>(size);
         try {
             for (int i = 0; i < size; i++) {
-                GeneticProgrammingTree gpTree = GeneticProgrammingTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
+                GPTree gpTree = GPTree.createGeneticProgrammingTree(TrainingData.getTrainingData());
 
                 Utilities.printTreeNode(gpTree.getRoot());
 
@@ -165,14 +165,14 @@ public class TreeTest {
         }
 
         System.out.println("Unsorted population");
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             System.out.println("GP Tree Fitness: " + gpTree.getFitness());
         }
 
         Collections.sort(population);
 
         System.out.println("\nSorted population, in descending order");
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             System.out.println("GP Tree Fitness: " + gpTree.getFitness());
         }
     }
@@ -201,7 +201,7 @@ public class TreeTest {
 
         try {
             for (int i = 0; i < size; i++) {
-                Tree gpTree = GeneticProgrammingTree.generateInitialTree(depth);
+                Tree gpTree = GPTree.generateInitialTree(depth);
 
                 System.out.println("Evaluate: " + gpTree.evaluate(0));
 
@@ -246,7 +246,7 @@ public class TreeTest {
 
         try {
             for (int i = 0; i < size; i++) {
-                Tree gpTree = GeneticProgrammingTree.generateInitialTree(depth);
+                Tree gpTree = GPTree.generateInitialTree(depth);
 
                 System.out.println("\nPrint Tree: " + i);
 
@@ -276,9 +276,9 @@ public class TreeTest {
             fail("Could not load property '" + Settings.PROP_POPULATION_SIZE + "'");
         }
 
-        ArrayList<GeneticProgrammingTree> population = null;
+        ArrayList<GPTree> population = null;
         try {
-            population = GeneticProgrammingTree.getGeneticTreePopulation(size);
+            population = GPTree.getGeneticTreePopulation(size);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not generate GeneticProgramming tree");
@@ -287,7 +287,7 @@ public class TreeTest {
         Collections.sort(population);
 
         System.out.println("\nSorted population, in descending order");
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             System.out.println("GP Tree Fitness: " + gpTree.getFitness());
             Utilities.printTreeNode(gpTree.getRoot());
         }
@@ -310,15 +310,15 @@ public class TreeTest {
             fail("Could not load property '" + Settings.PROP_POPULATION_SIZE + "'");
         }
 
-        ArrayList<GeneticProgrammingTree> population = null;
+        ArrayList<GPTree> population = null;
         try {
-            population = GeneticProgrammingTree.getGeneticTreePopulation(size);
+            population = GPTree.getGeneticTreePopulation(size);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not generate GeneticProgramming tree");
         }
 
-        for (GeneticProgrammingTree gpTree : population) {
+        for (GPTree gpTree : population) {
             Utilities.printTreeNode(gpTree.getRoot());
         }
     }
@@ -332,13 +332,13 @@ public class TreeTest {
         String prop = settings.getProperty(Settings.PROP_POPULATION_SIZE);
         int size = Integer.parseInt(prop);
 
-        ArrayList<GeneticProgrammingTree> population = population = GeneticProgrammingTree.getGeneticTreePopulation(size);
+        ArrayList<GPTree> population = population = GPTree.getGeneticTreePopulation(size);
 
-        for (GeneticProgrammingTree gpTree : population) {
-            GeneticProgrammingTree gpCopyTree = null;
+        for (GPTree gpTree : population) {
+            GPTree gpCopyTree = null;
 
             try {
-                gpCopyTree = GeneticProgrammingTree.copy(gpTree);
+                gpCopyTree = GPTree.copy(gpTree);
             } catch (Exception e) {
                 e.printStackTrace();
                 fail("Could not copy tree");

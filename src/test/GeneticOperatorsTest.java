@@ -1,6 +1,6 @@
 package test;
 
-import data.GeneticProgrammingTree;
+import data.GPTree;
 import data.Node;
 import org.junit.Test;
 import utilities.GeneticOperators;
@@ -32,9 +32,9 @@ public class GeneticOperatorsTest {
             fail("Could not load property '" + Settings.PROP_POPULATION_SIZE + "'");
         }
 
-        ArrayList<GeneticProgrammingTree> population = null;
+        ArrayList<GPTree> population = null;
         try {
-            population = GeneticProgrammingTree.getGeneticTreePopulation(size);
+            population = GPTree.getGeneticTreePopulation(size);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not generate GeneticProgramming tree");
@@ -67,8 +67,8 @@ public class GeneticOperatorsTest {
         String prop = settings.getProperty(Settings.PROP_POPULATION_SIZE);
         int size = Integer.parseInt(prop);
 
-        ArrayList<GeneticProgrammingTree> population = GeneticProgrammingTree.getGeneticTreePopulation(size);
-        ArrayList<GeneticProgrammingTree> newPopulation = GeneticOperators.selection(population);
+        ArrayList<GPTree> population = GPTree.getGeneticTreePopulation(size);
+        ArrayList<GPTree> newPopulation = GeneticOperators.selection(population);
         Collections.sort(population);
 
 
@@ -87,20 +87,20 @@ public class GeneticOperatorsTest {
 
     @Test
     public void testMutate() throws Exception {
-        ArrayList<GeneticProgrammingTree> population = null;
+        ArrayList<GPTree> population = null;
         try {
             int size = 0;
             Properties settings = Settings.getSettings();
             String prop = settings.getProperty(Settings.PROP_POPULATION_SIZE);
             size = Integer.parseInt(prop);
-            population = GeneticProgrammingTree.getGeneticTreePopulation(size);
+            population = GPTree.getGeneticTreePopulation(size);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not generate GeneticProgramming tree");
         }
 
 
-        GeneticProgrammingTree singleTree = population.get(1); //get the first tree from the population
+        GPTree singleTree = population.get(1); //get the first tree from the population
         ArrayList<String> beforeMutationLst = Node.postOrderItems(singleTree.getRoot());
         String postOrderStr = Utilities.convertArrayListToString(beforeMutationLst);
         int originalDepth = singleTree.depth();
