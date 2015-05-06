@@ -12,20 +12,18 @@ import data.OutputData;
 import data.TrainingData;
 
 /**
- * Main GP 
- * @author bash1664
- *
+ * @author Ou Li and Vishal Yelisetti
+ * 2015/05/03
  */
 
 public class GeneticProgrammingMain {
 
-	/**
-	 * Main Run() 
-	 * @param args
-	 */
-    
     public final static OutputData output = new OutputData();
-    
+
+    /**
+     *
+     * @param args main args
+     */
 	public static void main(String[] args) {
 		GeneticProgrammingMain gpMain = new GeneticProgrammingMain();
 		try {
@@ -39,7 +37,7 @@ public class GeneticProgrammingMain {
 	}
 	
 	public void process() throws Exception {
-        TrainingData.generateInitialTrainingData(0D, 20);
+        TrainingData.generateInitialTrainingData(-15D, 70);
 	    // Initialize
 
 	    ArrayList<TrainingData> trainingData = TrainingData.getTrainingData();

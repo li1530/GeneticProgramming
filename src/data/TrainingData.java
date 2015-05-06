@@ -42,8 +42,6 @@ public class TrainingData {
         for (int i = 0; i < dataSetSize; i++) {
             double x = minValue; 
             double y = (2*(x * x) - 3)/3;
-            //double y = ((-3 * (x * x)) + 7)/2;
-            
             bw.write("" + x + "," + y + "\n");
             
             minValue++;
