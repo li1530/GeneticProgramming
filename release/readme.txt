@@ -32,7 +32,7 @@ The Training Data is located in trainingdata.txt
 
 The target function used to generate the training data is:
 
-	(2x^2 - 2)/2
+	(2x^2 - 3)/3
 
 *** Output
 
